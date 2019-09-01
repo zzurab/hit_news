@@ -5,14 +5,45 @@ const firebase = require('firebase');
 const express = require('express');
 const Router = express.Router();
 
-const middlewares = require('./middlewares');
-
 const {check, validationResult, header} = require('express-validator');
 
-Router.route('/update')
-    .get([
+const middlewares = require('./middlewares');
+const {authMiddleware} = require('../middlewares');
+
+const {errorMessages} = require('../../config');
+
+const BusBoy = require('busboy');
+const path = require('path');
+const os = require('os');
+const fs = require('fs');
+
+const {getImageURLConstructor} = require('../../config');
+
+Router.route('/update/image')
+    .post([
+        header('authorization')
+            .custom(
+                authMiddleware(
+                    admin
+                )
+            ).withMessage('user/update/image/' + errorMessages.TOKEN_ERROR),
+        middlewares.uploadImage({
+            admin,
+            BusBoy,
+            path,
+            os,
+            fs,
+            getImageURLConstructor,
+            imageError: 'user/update/image/' + errorMessages.IMAGE_ERROR
+        }),
+        middlewares.updateUpdatedCollection(
+            admin
+                .firestore()
+                .collection('users')
+        ),
+        middlewares.displayValidationErrors(validationResult),
         (req, res, next) => {
-            res.json('test');
+            res.json(req.appData);
         }
     ]);
 

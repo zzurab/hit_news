@@ -14,7 +14,7 @@ module.exports = {
         let comment = {
             message: req.body.message,
             postId: req.body.postId,
-            userId: req.AuthorizedUserId,
+            userId: req.authorizedUserId,
             createdAt: (new Date()).toISOString()
         };
 

@@ -22,7 +22,9 @@ module.exports = {
                     .get();
             })
             .then(data => {
-                req.AuthorizedUserId = data.docs[0].data().userId;
+                req.authorizedUserId = data.docs[0].data().userId;
+                req.authorizedUserCollectionId = data.docs[0].id;
+
                 resolve();
             })
             .catch(error => {
