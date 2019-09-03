@@ -47,4 +47,21 @@ Router.route('/update/image')
         }
     ]);
 
+Router.route('/update')
+    .post([
+        header('authorization')
+            .custom(
+                authMiddleware(
+                    admin
+                )
+            ).withMessage('user/update/' + errorMessages.TOKEN_ERROR),
+        check('keys')
+            .isJSON().withMessage('user/update/' + errorMessages.NOT_JSON)
+            ,
+        middlewares.displayValidationErrors(validationResult),
+        (req, res, next) => {
+            res.json(req.appData);
+        }
+    ]);
+
 module.exports = Router;

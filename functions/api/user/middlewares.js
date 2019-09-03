@@ -22,6 +22,10 @@ module.exports = {
         let imageToBeUploaded = {};
 
         busBoy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+            if(!['image/png', 'image/jpeg']
+                    .includes(mimetype)){
+                next(new Error(imageError));
+            }
             const imageExtension = path.extname(filename).slice(1);
             imageFileName = req.authorizedUserId + '.' + imageExtension;
 
@@ -31,16 +35,10 @@ module.exports = {
                 filePath,
                 mimetype
             };
-            if (!Object.keys(imageToBeUploaded).length) {
-                return next(new Error(imageError));
-            }
             file.pipe(fs.createWriteStream(filePath));
         });
 
         busBoy.on('finish', () => {
-            if (!Object.keys(imageToBeUploaded).length) {
-                return next(new Error(imageError));
-            }
             admin
                 .storage()
                 .bucket()

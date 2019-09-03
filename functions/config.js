@@ -29,7 +29,8 @@ module.exports = {
         MATCH: 'match',
         NOT_EXISTS: 'NOT_EXISTS',
         UNAUTHORIZED: 'unauthorized',
-        IMAGE_ERROR: 'image_error'
+        IMAGE_ERROR: 'image_error',
+        NOT_JSON: 'not_json'
     },
 
     getImageURLConstructor: function(imageFileName){
