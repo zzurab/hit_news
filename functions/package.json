@@ -15,8 +15,8 @@
     "express": "^4.17.1",
     "express-validator": "^6.1.1",
     "firebase": "^6.5.0",
-    "firebase-admin": "^8.4.0",
-    "firebase-functions": "^3.2.0"
+    "firebase-admin": "^11.4.1",
+    "firebase-functions": "^3.24.1"
   },
   "devDependencies": {
     "busboy": "^0.3.1",
